@@ -1,9 +1,11 @@
 from pymongo import MongoClient
-import certifi
-ca = certifi.where()
 
-client = MongoClient("url", tlsCAFile=ca)
+client = MongoClient("url")
 db = client.dbsparta
+
+#웹스크래핑 bs4 패키지 추가
+import requests
+from bs4 import BeautifulSoup
 
 #Flask 기본 코드
 from flask import Flask, render_template, request, jsonify
@@ -13,9 +15,13 @@ app = Flask(__name__)
 def home():
    return render_template('index.html')
 
-@app.route('/mars', methods=['POST'])
+@app.route('/user', methods=['POST'])
 def test_post():
    some_receive = request.form['some_give']
+
+   headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
+   data = requests.get(some_receive,headers=headers)
+   soup = BeautifulSoup(data.text, 'html.parser')
 
    doc = {
     'some': some_receive
@@ -32,4 +38,4 @@ def test_get():
     return jsonify({'msg': 'GET 연결 완료!'})
 
 if __name__ == '__main__':
-   app.run('0.0.0.0',port=5001,debug=True)
+   app.run('0.0.0.0',port=5000,debug=True)
