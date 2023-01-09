@@ -1,8 +1,6 @@
 from pymongo import MongoClient
-import certifi
-ca = certifi.where()
 
-client = MongoClient("url", tlsCAFile=ca)
+client = MongoClient("url")
 db = client.dbsparta
 
 #Flask 기본 코드
@@ -13,7 +11,7 @@ app = Flask(__name__)
 def home():
    return render_template('index.html')
 
-@app.route('/mars', methods=['POST'])
+@app.route('/user', methods=['POST'])
 def test_post():
    some_receive = request.form['some_give']
 
@@ -32,4 +30,4 @@ def test_get():
     return jsonify({'msg': 'GET 연결 완료!'})
 
 if __name__ == '__main__':
-   app.run('0.0.0.0',port=5001,debug=True)
+   app.run('0.0.0.0',port=5000,debug=True)
