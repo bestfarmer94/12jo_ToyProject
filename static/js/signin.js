@@ -42,11 +42,11 @@ signUpCheckBtn.addEventListener('click', () => {
 
 function userCrossCheck(userId, password, otherPassword) {
     if (userId === '' || password === '' || otherPassword === '') {
-        alert('공백란을 채워 주세요');
+        // alert('공백란을 채워 주세요');
         return false;
     }
     if (password !== otherPassword) {
-        alert('비밀 번호를 재입력 해주세요');
+        // alert('비밀 번호를 재입력 해주세요');
         return false;
     }
 
@@ -64,7 +64,7 @@ function dbLoginCheck(id, password) {
     });
 
     if (loginCheck === false) {
-        alert('아이디와 비밀번호를 재확인 해주세요');
+        // alert('아이디와 비밀번호를 재확인 해주세요');
         return false;
     }
 
@@ -82,7 +82,7 @@ function dbsignUpCheck(id) {
     });
 
     if (loginCheck === false) {
-        alert('동일한 아이디가 존재합니다');
+        // alert('동일한 아이디가 존재합니다');
         return false;
     }
 
@@ -109,7 +109,7 @@ function sendUserData(id, password) {
             alert(response['msg']);
         },
         error: function () {
-            alert('로그인 정보가 없습니다.');
+            // alert('로그인 정보가 없습니다.');
         },
     });
 }
@@ -125,7 +125,7 @@ function getUserData() {
             data = response;
         },
         error: function () {
-            alert('로그인 정보가 없습니다.');
+            // alert('로그인 정보가 없습니다.');
             return false;
         },
     });
