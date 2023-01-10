@@ -8,7 +8,9 @@ const passwordCheckInput = document.querySelector('#floatingPasswordCheck');
 
 loginBtn.addEventListener('click', () => {
   const userId = idInput.value;
-  const password = passwordInput.value;
+  const userPassword = passwordInput.value;
+
+  dbLoginCheck(userId, userPassword);
 });
 
 signUpBtn.addEventListener('click', () => {
