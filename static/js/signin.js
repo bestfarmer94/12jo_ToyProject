@@ -10,7 +10,11 @@ loginBtn.addEventListener('click', () => {
     const userId = idInput.value;
     const userPassword = passwordInput.value;
 
-    dbLoginCheck(userId, userPassword);
+    if (!dbLoginCheck(userId, userPassword)) {
+        return;
+    }
+
+    window.location.href = './main';
 });
 
 signUpBtn.addEventListener('click', () => {
@@ -26,6 +30,11 @@ signUpCheckBtn.addEventListener('click', () => {
     if (!userCrossCheck(userId, password, passwordCheck)) {
         return;
     }
+    if (!dbsignUpCheck(userId)) {
+        return;
+    }
+
+    sendUserData(userId, password);
 
     selectorShowOrHide(true, loginBtn, signUpBtn);
     selectorShowOrHide(false, passwordCheckInput, signUpCheckBtn);
@@ -45,21 +54,35 @@ function userCrossCheck(userId, password, otherPassword) {
 }
 
 function dbLoginCheck(id, password) {
-    const userdb = getUserData();
+    const userdb = getUserData()['login_list'];
+    let loginCheck = false;
 
     userdb.forEach((dbList) => {
-        if (dbList[`id`] !== id && dbList[`password`] !== password) {
-            return false;
+        if (dbList[`id`] === id && dbList[`password`] === password) {
+            loginCheck = true;
         }
-
-        return true;
     });
+
+    if (loginCheck === false) {
+        alert('아이디와 비밀번호를 재확인 해주세요');
+        return false;
+    }
+
+    return true;
 }
 
 function dbsignUpCheck(id) {
-    const userdb = getUserData();
+    const userdb = getUserData()['login_list'];
+    let loginCheck = true;
 
-    if (userdb[`${id}`] === undefined) {
+    userdb.forEach((dbList) => {
+        if (dbList[`id`] === id) {
+            loginCheck = false;
+        }
+    });
+
+    if (loginCheck === false) {
+        alert('동일한 아이디가 존재합니다');
         return false;
     }
 
@@ -77,7 +100,7 @@ function selectorShowOrHide(boolean, ...selectors) {
 function sendUserData(id, password) {
     $.ajax({
         type: 'POST',
-        url: '/homework',
+        url: '/login',
         data: {
             id_give: id,
             password_give: password,
@@ -95,7 +118,7 @@ function getUserData() {
     let data = {};
     $.ajax({
         type: 'GET',
-        url: '/homework',
+        url: '/login',
         data: {},
         async: false,
         success: function (response) {
