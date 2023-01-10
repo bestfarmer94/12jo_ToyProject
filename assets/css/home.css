@@ -1,0 +1,59 @@
+.main-section {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.mytitle {
+    width: 100%;
+    height: 250px;
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.mytitle > button {
+    width: 200px;
+    height: 50px;
+    background-color: transparent;
+
+    border-radius: 50px;
+    border: 1px solid rgb(225, 225, 225);
+
+    margin-top: 10px;
+}
+
+.mytitle > button:hover {
+    border: 2px solid rgb(225, 225, 225);
+}
+
+.mycomment {
+    color: gray;
+}
+
+.bookmark__container {
+    margin: 20px auto 0px auto;
+    width: 95%;
+    max-width: 1200px;
+}
+
+.mypost {
+    width: 95%;
+    max-width: 500px;
+    margin: 20px auto 0px auto;
+    padding: 20px;
+    box-shadow: 0px 0px 3px 0px gray;
+}
+
+.mybtns {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+.mybtns > button {
+    margin-right: 10px;
+}
