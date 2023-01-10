@@ -1,0 +1,4 @@
+.owl-theme .owl-nav [class*='owl-']:hover {
+    background: none !important;
+    filter: opacity(0.5);
+}

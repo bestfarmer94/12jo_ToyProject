@@ -3,7 +3,15 @@
 @import '/static/css/nav-bar.css';
 @import '/static/css/components.css';
 @import '/static/css/home.css';
+<<<<<<< HEAD
+@import '/static/css/owl.css';
 
+:root {
+  --brand-color: rgb(57 154 214);
+}
+=======
+
+>>>>>>> Adult96
 *,
 *::before,
 *::after {
@@ -238,13 +246,20 @@ h6,
 .h5,
 .h6 {
   margin-bottom: 0.5rem;
+<<<<<<< HEAD
+=======
   font-weight: 500;
+>>>>>>> Adult96
   line-height: 1.2;
 }
 
 h1,
 .h1 {
   font-size: 2.5rem;
+<<<<<<< HEAD
+  font-weight: 700;
+=======
+>>>>>>> Adult96
 }
 
 h2,
