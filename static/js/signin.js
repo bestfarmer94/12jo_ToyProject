@@ -7,13 +7,13 @@ const passwordInput = document.querySelector('#floatingPassword');
 const passwordCheckInput = document.querySelector('#floatingPasswordCheck');
 
 loginBtn.addEventListener('click', () => {
-  const userId = id.value;
-  const password = password.value;
+  const userId = idInput.value;
+  const password = passwordInput.value;
 });
 
 signUpBtn.addEventListener('click', () => {
   selectorShowOrHide(false, loginBtn, signUpBtn);
-  selectorShowOrHide(true, passwordCheck, signUpCheckBtn);
+  selectorShowOrHide(true, passwordCheckInput, signUpCheckBtn);
 });
 
 signUpCheckBtn.addEventListener('click', () => {
@@ -45,11 +45,13 @@ function userCrossCheck(userId, password, otherPassword) {
 function dbLoginCheck(id, password) {
   const userdb = getUserData();
 
-  if (userdb[`${id}`] === undefined || userdb[`${password}`]) {
-    return false;
-  }
+  userdb.forEach(dbList => {
+    if (dbList[`id`] !== id && dbList[`password`] !== password) {
+      return false;
+    }
 
-  return true;
+    return true;
+  });
 }
 
 function dbsignUpCheck(id) {
