@@ -1,5 +1,6 @@
 // navbar toggle
 $('#nav-toggle').click(function () {
+<<<<<<< HEAD
   $(this).toggleClass('is-active');
   $('ul.nav').toggleClass('show');
 });
@@ -54,3 +55,8 @@ var index = 0,
     isAdding ? 90 : 30
   );
 })();
+=======
+    $(this).toggleClass('is-active');
+    $('ul.nav').toggleClass('show');
+});
+>>>>>>> Adult96
