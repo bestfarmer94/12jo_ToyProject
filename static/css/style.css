@@ -5,6 +5,7 @@
 @import '/static/css/home.css';
 @import '/static/css/owl.css';
 @import '/static/css/signin.css';
+@import '/static/css/main.css';
 
 :root {
     --brand-color: rgb(92 193 255);

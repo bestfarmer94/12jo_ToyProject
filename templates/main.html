@@ -39,6 +39,11 @@
         />
         <meta property="og:image" content="이미지URL" />
         <link rel="stylesheet" href="../static/css/style.css" />
+        <!-- <script>
+            $(document).ready(function () {
+                save_bookmark();
+            });
+        </script> -->
     </head>
     <body
         data-spy="scroll"
@@ -70,15 +75,27 @@
                         <div class="hamburger-inner"></div>
                     </div>
                 </a>
+                <div>
+                    <button class="bookmark-btn">show</button>
+                </div>
             </div>
         </nav>
         <!-- End of Page Navbar -->
-
         <header id="home" class="header">
             <div class="overlay"></div>
-            <section class="header__section2"></section>
+            <section id="main__section"></section>
+            <!--GET으로 보여질 부분-->
+            <section>
+                <div class="mycards">
+                    <div
+                        class="row row-cols-1 row-cols-md-4 g-4"
+                        id="cards-box"
+                    ></div>
+                </div>
+            </section>
         </header>
 
         <script src="/static/js/common.js"></script>
+        <script src="/static/js/save_bookmark.js"></script>
     </body>
 </html>
