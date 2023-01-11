@@ -1,8 +1,5 @@
+//====================북마크 레이아웃========================
 const bookmarkBtn = document.querySelector('.bookmark-btn');
-
-bookmarkBtn.addEventListener('click', () => {
-    show_bookmark();
-});
 
 function getBookMark(id = 'kyungyeon') {
     let bookmark_list = {};
@@ -50,6 +47,9 @@ function show_bookmark() {
         $('#cards-box').append(tempHTML);
     });
 }
+
+show_bookmark();
+
 /*==========포스팅 팝업*/
 $(document).ready(function () {
     var target = $('#postPop');
