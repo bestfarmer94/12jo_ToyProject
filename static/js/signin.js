@@ -6,88 +6,101 @@ const idInput = document.querySelector('#floatingId');
 const passwordInput = document.querySelector('#floatingPassword');
 const passwordCheckInput = document.querySelector('#floatingPasswordCheck');
 
-loginBtn.addEventListener('click', () => {
+loginBtn.addEventListener('click', (e) => {
+    e.preventDefault();
     const userId = idInput.value;
     const userPassword = passwordInput.value;
 
-    if (!dbLoginCheck(userId, userPassword)) {
+    if (!loginCrossCheck(userId, userPassword)) {
         return;
     }
-
+    if (!sendUserData(userId, userPassword)) {
+        return;
+    }
     window.location.href = './main';
 });
 
-signUpBtn.addEventListener('click', () => {
+signUpBtn.addEventListener('click', (e) => {
+    e.preventDefault();
     selectorShowOrHide(false, loginBtn, signUpBtn);
     selectorShowOrHide(true, passwordCheckInput, signUpCheckBtn);
 });
 
-signUpCheckBtn.addEventListener('click', () => {
+signUpCheckBtn.addEventListener('click', (e) => {
+    e.preventDefault();
     const userId = idInput.value;
     const password = passwordInput.value;
     const passwordCheck = passwordCheckInput.value;
 
-    if (!userCrossCheck(userId, password, passwordCheck)) {
-        return;
-    }
-    if (!dbsignUpCheck(userId)) {
+    if (!singupCrossCheck(userId, password, passwordCheck)) {
         return;
     }
 
-    sendUserData(userId, password);
+    if (!sendUserData(userId, password, passwordCheck)) {
+        return;
+    }
 
     selectorShowOrHide(true, loginBtn, signUpBtn);
     selectorShowOrHide(false, passwordCheckInput, signUpCheckBtn);
 });
 
-function userCrossCheck(userId, password, otherPassword) {
+function singupCrossCheck(userId, password, otherPassword) {
     if (userId === '' || password === '' || otherPassword === '') {
-        // alert('공백란을 채워 주세요');
+        alert('공백란을 채워 주세요');
         return false;
     }
     if (password !== otherPassword) {
-        // alert('비밀 번호를 재입력 해주세요');
+        alert('비밀 번호를 재입력 해주세요');
         return false;
     }
 
     return true;
 }
 
-function dbLoginCheck(id, password) {
-    const userdb = getUserData()['login_list'];
-    let loginCheck = false;
-
-    userdb.forEach((dbList) => {
-        if (dbList[`id`] === id && dbList[`password`] === password) {
-            loginCheck = true;
-        }
-    });
-
-    if (loginCheck === false) {
-        // alert('아이디와 비밀번호를 재확인 해주세요');
+function loginCrossCheck(userId, password) {
+    if (userId === '' || password === '') {
+        alert('공백란을 채워 주세요');
         return false;
     }
 
     return true;
 }
 
-function dbsignUpCheck(id) {
-    const userdb = getUserData()['login_list'];
-    let loginCheck = true;
+// function dbLoginCheck(id, password) {
+//     const userdb = getUserData()['login_list'];
+//     let loginCheck = false;
 
-    userdb.forEach((dbList) => {
-        if (dbList[`id`] === id) {
-            loginCheck = false;
-        }
-    });
+//     userdb.forEach((dbList) => {
+//         if (dbList[`id`] === id && dbList[`password`] === password) {
+//             loginCheck = true;
+//         }
+//     });
 
-    if (loginCheck === false) {
-        // alert('동일한 아이디가 존재합니다');
-        return false;
-    }
+//     if (loginCheck === false) {
+//         alert('아이디와 비밀번호를 재확인 해주세요');
+//         return false;
+//     }
 
-    return true;
-}
+//     return true;
+// }
+
+// function dbsignUpCheck(id) {
+//     const userdb = getUserData()['login_list'];
+//     let loginCheck = true;
+
+//     userdb.forEach((dbList) => {
+//         if (dbList[`id`] === id) {
+//             loginCheck = false;
+//         }
+//     });
+
+//     if (loginCheck === false) {
+//         alert('동일한 아이디가 존재합니다');
+//         return false;
+//     }
+
+//     return true;
+// }
 
 function selectorShowOrHide(boolean, ...selectors) {
     if (boolean === true) {
@@ -97,38 +110,49 @@ function selectorShowOrHide(boolean, ...selectors) {
     }
 }
 
-function sendUserData(id, password) {
+function sendUserData(id, password, passwordCheck = null) {
+    let check = true;
     $.ajax({
         type: 'POST',
         url: '/login',
         data: {
             id_give: id,
-            password_give: password,
+            pw_give: password,
+            pw_check_give: passwordCheck,
         },
-        success: function (response) {
-            alert(response['msg']);
-        },
-        error: function () {
-            // alert('로그인 정보가 없습니다.');
-        },
-    });
-}
-
-function getUserData() {
-    let data = {};
-    $.ajax({
-        type: 'GET',
-        url: '/login',
-        data: {},
         async: false,
         success: function (response) {
-            data = response;
+            if (response['complete']) {
+                alert(response['complete']);
+            } else {
+                alert(response['error']);
+                check = false;
+            }
         },
         error: function () {
-            // alert('로그인 정보가 없습니다.');
-            return false;
+            alert('로그인 정보가 없습니다.');
+            check = false;
         },
     });
-
-    return data;
+    return check;
 }
+
+// function getUserData() {
+//     console.log(1);
+//     let data = {};
+//     $.ajax({
+//         type: 'GET',
+//         url: '/login',
+//         data: {},
+//         async: false,
+//         success: function (response) {
+//             console.log(response);
+//             data = response;
+//         },
+//         error: function () {
+//             alert('로그인 정보가 없습니다.');
+//             return false;
+//         },
+//     });
+//     return data;
+// }

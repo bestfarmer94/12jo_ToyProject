@@ -39,18 +39,10 @@
         />
         <meta property="og:image" content="이미지URL" />
         <link rel="stylesheet" href="../static/css/style.css" />
-        <script>
-            $(document).ready(function () {
-                save_bookmark();
-            });
-        </script>
+        <!--postpop style sheet 추가-->
+        <link rel="stylesheet" href="../static/css/postpop.css" />
     </head>
-    <body
-        data-spy="scroll"
-        data-target=".navbar"
-        data-offset="40"
-        style="height: 1500px"
-    >
+    <body data-spy="scroll" data-target=".navbar" data-offset="40">
         <!-- Page Navbar -->
         <nav class="custom-navbar">
             <div class="container">
@@ -78,64 +70,102 @@
             </div>
         </nav>
         <!-- End of Page Navbar -->
-
         <header id="home" class="header">
             <div class="overlay"></div>
-            <section id="main__section">
-                <div class="mypost" id="post-box">
-                    <div class="form-floating mb-3">
-                        <input
-                            id="url"
-                            type="text"
-                            class="form-control"
-                            placeholder="url"
-                        />
-                        <label>URL</label>
-                    </div>
-                    <div class="input-group mb-3">
-                        <label class="input-group-text" for="inputGroupSelect01"
-                            >카테고리</label
-                        >
-                        <input
-                            id="category"
-                            type="text"
-                            class="form-control"
-                            placeholder="ex)유튜브"
-                        />
-                    </div>
-                    <div class="form-floating">
-                        <textarea
-                            id="comment"
-                            class="form-control"
-                            placeholder="Leave a comment here"
-                        ></textarea>
-                        <label for="floatingTextarea2">comment</label>
-                    </div>
-                    <div class="mybtns">
-                        <button
-                            onclick="save_bookmark()"
-                            type="button"
-                            class="btn btn-dark"
-                        >
-                            기록하기
-                        </button>
-                        <button
-                            onclick="close_box()"
-                            type="button"
-                            class="btn btn-outline-dark"
-                        >
-                            닫기
-                        </button>
-                    </div>
-                </div>
-            </section>
+            <section id="main__section"></section>
             <!--GET으로 보여질 부분-->
             <section>
-                
+                <div id="bookmarks" class="mycards">
+                    <div
+                        class="row row-cols-1 row-cols-md-4 g-4"
+                        id="cards-box"
+                    ></div>
+                </div>
             </section>
         </header>
+    </header>
 
+    <div id="postPop" class="closeBtn_C" style="display: none">
+        <div class="postPop__container" id="post-box">
+            <div class="form-floating mb-3 postPop__form">
+                <input
+                    id="postPop__url"
+                    type="text"
+                    class="form-control"
+                    placeholder="url"
+                />
+                <label>URL</label>
+            </div>
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="inputGroupSelect01"
+                    >카테고리</label
+                >
+                <input
+                    id="category"
+                    type="text"
+                    class="form-control"
+                    placeholder="ex)유튜브"
+                />
+            </div>
+            <div class="form-floating">
+                <textarea
+                    id="comment"
+                    class="form-control"
+                    placeholder="Leave a comment here"
+                ></textarea>
+                <label for="floatingTextarea2">#Hashtag</label>
+            </div>
+            <div class="mybtns">
+                <button
+                    onclick="save_bookmark()"
+                    type="button"
+                    class="btn btn-light"
+                >
+                    북마크
+                </button>
+                <button
+                    onclick="close_box()"
+                    type="button"
+                    class="btn btn-outline-light"
+                >
+                    닫기
+                </button>
+            </div>
+
+            <!-- 태그 클라우드 -->
+            <hr />
+            <div class="tag-cloud__container">
+                <div class="tag-cloud__title">
+                    <i
+                        class="fad fa-user-tag"
+                        style="
+                            --fa-primary-color: rgb(74 134 183);
+                            --fa-secondary-color: rgb(134 134 134);
+                            padding-right: 10px;
+                        "
+                    ></i>
+                    <a href="">태그 클라우드로 이동</a>
+                </div>
+                <div class="tag-cloud__list">
+                    <!--태그 리스트-->
+                    <span>
+                        <a href="" class="tag-cloud__tags">
+                            <i class="fad fa-tags tags-i"></i> 유튜브
+                        </a>
+                    </span>
+                </div>
+            </div>
+            <div
+                class="tag-cloud__info-meta d-flex justify-content-end me-3"
+            >
+                <img src="" />
+                <span class="stag-cloud__small text-light flex-row-reverse"
+                    >북마크할 웹사이트 링크를 등록해보세요!</span
+                >
+            </div>
+        </div>
+    </div>
         <script src="/static/js/common.js"></script>
-        <script src="/static/js/save_bookmark.js"></script>
+        <script src="/static/js/main.js"></script>
     </body>
 </html>

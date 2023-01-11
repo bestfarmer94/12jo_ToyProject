@@ -107,9 +107,9 @@ ul ol {
 }
 
 a {
-    color: #695aa6;
     text-decoration: none;
     background-color: transparent;
+    color: white;
 }
 
 a:hover {
