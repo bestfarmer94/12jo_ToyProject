@@ -1,11 +1,8 @@
 function save_bookmark() {
 
     let id = "kyungyeon";
-    if (confirm_bookmark()) {
-        return;
-    }
 
-    let url = $('#url').val();
+    let url = $('#postPop__url').val();
     let category = $('#category').val();
     let hash = $('#hash').val();
     let data = {
@@ -25,17 +22,4 @@ function save_bookmark() {
             alert(response['msg']);
         },
     });
-}
-
-function confirm_bookmark() {
-    if ($('#url').val().length == 0) {
-        alert('url을 입력해주세요.');
-        return true;
-    }
-    if ($('#category').val().length == 0) {
-        alert('category를 입력해주세요.');
-        return true;
-    }
-
-    return false;
 }
