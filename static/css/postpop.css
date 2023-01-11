@@ -88,3 +88,35 @@
 .tag-cloud__tags > i {
     padding-right: 0.5rem;
 }
+
+/* tagify 라이브러리 */
+
+.tagify {
+    width: 100%;
+}
+
+.tag-input {
+    background-color: white;
+    color: black;
+}
+
+.tags-look .tagify__dropdown__item {
+    display: inline-block;
+    border-radius: 3px;
+    padding: 0.3em 0.5em;
+    border: 1px solid #ccc;
+    background: #f3f3f3;
+    margin: 0.2em;
+    font-size: 0.85em;
+    color: black;
+    transition: 0s;
+}
+
+.tags-look .tagify__dropdown__item--active {
+    color: black;
+}
+
+.tags-look .tagify__dropdown__item:hover {
+    background: lightyellow;
+    border-color: gold;
+}

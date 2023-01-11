@@ -1,3 +1,21 @@
 #cards-box * {
     color: black;
 }
+
+#bookmark {
+    width: 20rem;
+    height: 20rem;
+}
+
+.card-img-top {
+    height: 10rem;
+}
+
+.card-body * {
+    height: 5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
