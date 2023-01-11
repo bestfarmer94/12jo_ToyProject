@@ -1,5 +1,138 @@
+//=====================포스팅 팝업=========================
+
+$(document).ready(function () {
+    var target = $('#postPop');
+    $(document).on('click', '.nav__posting', function (e) {
+        addCategoryPopUp();
+
+        target
+            .fadeIn(300, function () {
+                $('#postPop__url').focus();
+            })
+            .addClass('reveal');
+        $('body').addClass('has-url');
+    });
+});
+
+$('#close__postPop').click(function () {
+    $(this).closest('#postPop').removeClass('reveal').fadeOut(200);
+    $('body').removeClass('has-search');
+});
+
+$('#bookmark-post').click(function () {
+    const postURL = $('#postPop__url').val();
+    const catagoryData = $('#category').val();
+
+    const tagArray = tagify.value.map((tag) => tag['value']);
+
+    const bookmarkData = {
+        id: 'kyungyeon',
+        url: postURL,
+        category: catagoryData,
+        hash: tagArray,
+    };
+
+    // console.log(postURL, catagory, JSON.stringify(tagArray));
+
+    saveBookmark('/save_bookmark', {
+        data_give: JSON.stringify(bookmarkData),
+    });
+
+    window.location.reload();
+});
+
+function addCategoryPopUp() {
+    $('.tag-cloud__list *').remove();
+    let parse_category = bookmark_list.map((list) => list['category']);
+
+    parse_category = new Set(parse_category);
+
+    parse_category.forEach((category) => {
+        const tag_html = `
+          <span>
+            <a href="" class="tag-cloud__tags">
+                <i class="fad fa-tags tags-i"></i> ${category}
+            </a>
+          </span>
+          `;
+
+        $('.tag-cloud__list').append(tag_html);
+    });
+}
+
+//====================북마크 레이아웃========================
+let bookmark_list = {};
+
+function ajaxBookMark(url, data) {
+    bookmark_list = {};
+    $('#cards-box').empty();
+    $.ajax({
+        type: 'POST',
+        url: url,
+        data: data,
+        async: false,
+        success: function (response) {
+            bookmark_list = response;
+        },
+        error: function () {
+            alert('url을 확인해 주세요');
+        },
+    });
+
+    return bookmark_list;
+}
+
+function showBookMark(id) {
+    bookmark_list = ajaxBookMark(
+        '/show_bookmark', //
+        { id_give: 'kyungyeon' } //
+    )['bookmark_list'];
+
+    bookmark_list.forEach((list) => {
+        const id = list['id'];
+        const image = list['image'];
+        const title = list['title'];
+        const category = list['category'];
+        const url = list['url'];
+        let hash = list['hash'];
+
+        const reg = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
+
+        hash = hash.map((tag) => `#${tag.replace(reg, '')}`).join(' ');
+
+        const tempHTML = `
+        <div id="bookmark" class="col">
+          <a class="logo" href="${url}">
+            <div class="card" style="width: 18rem">
+              <img src="${image}" class="card-img-top" alt="bookimage" />
+                <div class="card-body">
+                    <h5 class="card-title">${title}</h5>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">${category}</li>
+                    <li class="list-group-item">${hash}</li>
+                </ul>
+            </div>
+          </a>
+        </div>     
+        `;
+        $('#cards-box').append(tempHTML);
+    });
+}
+
+function saveBookmark(url, data) {
+    return ajaxBookMark(url, data);
+}
+
+showBookMark();
+
+const parse_hash = bookmark_list
+    .map((list) => list['hash'])
+    .join(',')
+    .split(',');
+
 let inputElm = document.querySelector('input[name=tags]'),
-    whitelist = ['치킨', '피자'];
+    whitelist = parse_hash;
 
 let tagify = new Tagify(inputElm, {
     enforceWhitelist: false,
@@ -13,91 +146,10 @@ let tagify = new Tagify(inputElm, {
     },
 });
 
-tagify.on('add', onAddTag); //
+// tagify.on('add', onAddTag); //
 
-function onAddTag(e) {
-    console.log('onAddTag: ', e.detail);
-    tagify.off('add', onAddTag);
-}
-
-//=====================포스팅 팝업=========================
-
-$(document).ready(function () {
-    var target = $('#postPop');
-    $(document).on('click', '.nav__posting', function (e) {
-        target
-            .fadeIn(300, function () {
-                $('#postPop__url').focus();
-            })
-            .addClass('reveal');
-        $('body').addClass('has-url');
-    });
-
-    $(document).mouseup(function (e) {
-        if (target.has(e.target).length == 0) {
-            target
-                .fadeOut(300, function () {
-                    $('body').removeClass('has-url');
-                })
-                .removeClass('reveal');
-        }
-    });
-});
-
-$('#close__postPop').click(function () {
-    $(this).closest('#postPop').removeClass('reveal').fadeOut(200);
-    $('body').removeClass('has-search');
-});
-
-//====================북마크 레이아웃========================
-const bookmarkBtn = document.querySelector('.bookmark-btn');
-
-function getBookMark(id = 'kyungyeon') {
-    let bookmark_list = {};
-    $('#cards-box').empty();
-    $.ajax({
-        type: 'POST',
-        url: '/show_bookmark',
-        data: { id_give: id },
-        async: false,
-        success: function (response) {
-            bookmark_list = response;
-        },
-    });
-
-    return bookmark_list;
-}
-
-function show_bookmark(id) {
-    const bookmark_list = getBookMark(id)['bookmark_list'];
-
-    bookmark_list.forEach((list) => {
-        let id = list['id'];
-        let image = list['image'];
-        let title = list['title'];
-        let comment = list['comment'];
-        let category = list['category'];
-        let url = list['url'];
-
-        let tempHTML = `
-        <div id="bookmark" class="col">
-          <a class="logo" href="${url}">
-            <div class="card" style="width: 18rem">
-                <img src="${image}" class="card-img-top" alt="bookimage" />
-                <div class="card-body">
-                    <h5 class="card-title">${title}</h5>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">${category}</li>
-                    <li class="list-group-item">${comment}</li>
-                    <li class="list-group-item">${'#tag'}</li>
-                </ul>
-            </div>
-          </a>
-        </div>     
-        `;
-        $('#cards-box').append(tempHTML);
-    });
-}
-
-show_bookmark();
+// function onAddTag(e) {
+//     console.log('onAddTag: ', e.detail.tagify.value);
+//     console.log(tagify.value);
+//     // tagify.off('add', onAddTag);
+// }
