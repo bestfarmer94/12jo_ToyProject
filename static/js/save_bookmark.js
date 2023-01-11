@@ -9,7 +9,8 @@ function save_bookmark() {
     let data = {
         'id': id,
         'url': url,
-        'category': category
+        'category': category,
+        'hash': hash
     };
 
     // dict to json
