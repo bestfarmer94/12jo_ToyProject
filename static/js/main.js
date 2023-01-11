@@ -75,24 +75,26 @@ function show_bookmark(id) {
         let id = list['id'];
         let image = list['image'];
         let title = list['title'];
-        let tag = list['tag'];
+        let comment = list['comment'];
         let category = list['category'];
         let url = list['url'];
 
         let tempHTML = `
-        <div class="col cards-box">
-                            <div class="cards-box__container logo">
-                                <div class="cards-box__category"><span>${category}</span><button class="cards-box__closeBtn"></button></div>
-                                <div class="cards-box__card" style="width: 18rem">
-                                    <a href="${url}">
-                                        <img src="${image}" class="cards-box__img" alt="bookimage" />
-
-                                        <p class="cards-box__body-title">${title}</p>
-                                    </a>
-                                    <p class="cards-box__body-tag">${tag}</p>
-                                </div>
-                            </div>
-                        </div>     
+        <div id="bookmark" class="col">
+          <a class="logo" href="${url}">
+            <div class="card" style="width: 18rem">
+                <img src="${image}" class="card-img-top" alt="bookimage" />
+                <div class="card-body">
+                    <h5 class="card-title">${title}</h5>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">${category}</li>
+                    <li class="list-group-item">${comment}</li>
+                    <li class="list-group-item">${'#tag'}</li>
+                </ul>
+            </div>
+          </a>
+        </div>     
         `;
         $('#cards-box').append(tempHTML);
     });
