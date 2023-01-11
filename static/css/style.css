@@ -48,10 +48,12 @@ body {
     background-attachment: fixed;
     background-size: cover;
     z-index: -1;
+    overflow-x: hidden;
 }
 
 #body__home,
-#body__login {
+#body__login,
+body.has-url {
     overflow: hidden;
 }
 
