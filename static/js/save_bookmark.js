@@ -5,11 +5,11 @@ function save_bookmark() {
     let url = $('#postPop__url').val();
     let category = $('#category').val();
     let hash = $('#hash').val();
+    alert(hash)
     let data = {
         'id': id,
         'url': url,
-        'category': category,
-        'hash': hash
+        'category': category
     };
 
     // dict to json
