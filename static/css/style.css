@@ -52,7 +52,7 @@ body {
     z-index: -1;
 }
 
-#body__home,
+/*#body__home,*/
 #body__login {
     overflow: hidden;
 }
