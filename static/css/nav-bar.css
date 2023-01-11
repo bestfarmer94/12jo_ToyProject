@@ -84,7 +84,7 @@
 }
 
 .custom-navbar.scroll {
-    background: #49494994;
+    background: #000000bf;
     backdrop-filter: blur(5px);
 }
 
@@ -206,12 +206,10 @@
 
 .hamburger--elastic .hamburger-inner::after {
     top: 18px;
-    -webkit-transition: -webkit-transform 0.4s
-        cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    -webkit-transition: -webkit-transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     transition: -webkit-transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55),
-        -webkit-transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55), -webkit-transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 .hamburger--elastic.is-active .hamburger-inner {
