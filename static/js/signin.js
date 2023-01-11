@@ -14,9 +14,12 @@ loginBtn.addEventListener('click', (e) => {
     if (!loginCrossCheck(userId, userPassword)) {
         return;
     }
+
+    // const userID = sendUserData(userId, userPassword);
     if (!sendUserData(userId, userPassword)) {
         return;
     }
+
     window.location.href = './main';
 });
 
@@ -66,42 +69,6 @@ function loginCrossCheck(userId, password) {
     return true;
 }
 
-// function dbLoginCheck(id, password) {
-//     const userdb = getUserData()['login_list'];
-//     let loginCheck = false;
-
-//     userdb.forEach((dbList) => {
-//         if (dbList[`id`] === id && dbList[`password`] === password) {
-//             loginCheck = true;
-//         }
-//     });
-
-//     if (loginCheck === false) {
-//         alert('아이디와 비밀번호를 재확인 해주세요');
-//         return false;
-//     }
-
-//     return true;
-// }
-
-// function dbsignUpCheck(id) {
-//     const userdb = getUserData()['login_list'];
-//     let loginCheck = true;
-
-//     userdb.forEach((dbList) => {
-//         if (dbList[`id`] === id) {
-//             loginCheck = false;
-//         }
-//     });
-
-//     if (loginCheck === false) {
-//         alert('동일한 아이디가 존재합니다');
-//         return false;
-//     }
-
-//     return true;
-// }
-
 function selectorShowOrHide(boolean, ...selectors) {
     if (boolean === true) {
         selectors.map((selector) => (selector.style.display = 'block'));
@@ -111,7 +78,8 @@ function selectorShowOrHide(boolean, ...selectors) {
 }
 
 function sendUserData(id, password, passwordCheck = null) {
-    let check = true;
+    let checkData = true;
+
     $.ajax({
         type: 'POST',
         url: '/login',
@@ -124,17 +92,23 @@ function sendUserData(id, password, passwordCheck = null) {
         success: function (response) {
             if (response['complete']) {
                 alert(response['complete']);
+                // checkData = response['complete'];
+            } else if (response['create']) {
+                alert(response['create']);
+            } else if (response['fail']) {
+                alert(response['fail']);
+                checkData = false;
             } else {
                 alert(response['error']);
-                check = false;
+                checkData = false;
             }
         },
         error: function () {
             alert('로그인 정보가 없습니다.');
-            check = false;
+            checkData = false;
         },
     });
-    return check;
+    return checkData;
 }
 
 // function getUserData() {
