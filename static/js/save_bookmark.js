@@ -7,12 +7,12 @@ function save_bookmark() {
 
     let url = $('#url').val();
     let category = $('#category').val();
-    let comment = $('#comment').val();
+    let hash = $('#hash').val();
     let data = {
         'id': id,
         'url': url,
         'category': category,
-        'comment': comment,
+        'hash': hash
     };
 
     // dict to json

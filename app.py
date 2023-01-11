@@ -14,6 +14,8 @@ from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
 
+SECRET_KEY = "12jo"
+
 
 @app.route('/')
 def home():
@@ -57,10 +59,15 @@ def save_bookmark():
     id_receive = bookmark_data["id"]
     url_receive = bookmark_data["url"]
     category_receive = bookmark_data["category"]
-    comment_receive = bookmark_data["comment"]
+    hash_receive = bookmark_data["hash"]
+
+    all_list = list(db.bookmarks.find({}))
+    if len(all_list) != 0:
+        number = max(x["number"] for x in all_list) + 1
+    else:
+        number = 1
 
     bookmark_list = list(db.bookmarks.find({"id": id_receive, "url": url_receive}, {'_id': False}))
-
     if len(bookmark_list) != 0:
         return jsonify({"msg": "이미 가지고 있는 url 입니다."})
 
@@ -73,12 +80,13 @@ def save_bookmark():
     image = soup.select_one('meta[property="og:image"]')['content']
 
     new_bookmark = {
+        "number": number,
         "title": title,
         "image": image,
         "id": id_receive,
         "url": url_receive,
         "category": category_receive,
-        "comment": comment_receive
+        "hash": hash_receive
     }
     db.bookmarks.insert_one(new_bookmark)
 
@@ -92,6 +100,21 @@ def save_bookmark():
         db.categories.insert_one(new_category)
 
     return jsonify({"msg": "저장 완료"})
+
+
+# @app.route("/search", methods=["POST"])
+# def search():
+#     id_receive = request.form["id_give"]
+#     keyword_receive = request.form["keyword_give"]
+#
+#     search_list = list(db.bookmarks.find({"$and": [{"id": id_receive}, {"hash": {"$regex": keyword_receive}}]}))
+#     return jsonify({"search_list": search_list})
+
+@app.route("/delete", methods=["POST"])
+def delete_bookmark():
+    number_receive = request.form["number_give"]
+    db.bookmarks.delete_one({"number": number_receive})
+    return jsonify({"msg": "삭제 완료"})
 
 
 if __name__ == '__main__':
