@@ -1,16 +1,20 @@
+from flask import Flask, render_template, request, jsonify
+from bs4 import BeautifulSoup
+import requests
+import json
+
 from pymongo import MongoClient
 from werkzeug.security import generate_password_hash, check_password_hash
 
 client = MongoClient("mongodb+srv://toyproject:sparta@cluster0.pahczrd.mongodb.net/?retryWrites=true&w=majority")
 db = client.dbsparta
 
-#웹스크래핑 bs4 패키지 추가
-import requests
-from bs4 import BeautifulSoup
+# 웹스크래핑 bs4 패키지 추가
 
-#Flask 기본 코드
-from flask import Flask, render_template, request, jsonify
+# Flask 기본 코드
+
 app = Flask(__name__)
+
 
 @app.route('/')
 def home():
