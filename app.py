@@ -52,7 +52,7 @@ def login_get():
 
 @app.route("/save_bookmark", methods=["POST"])
 def save_bookmark():
-    #json -> dictionary
+    # json -> dictionary
     bookmark_data = json.loads(request.form["data_give"])
     id_receive = bookmark_data["id"]
     url_receive = bookmark_data["url"]
@@ -83,6 +83,7 @@ def save_bookmark():
     db.bookmarks.insert_one(new_bookmark)
 
     category_list = list(db.categories.find({"id": id_receive, "category": category_receive}, {'_id': False}))
+
     if len(category_list) == 0:
         new_category = {
             "category": category_receive,

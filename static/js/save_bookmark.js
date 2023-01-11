@@ -1,7 +1,6 @@
 function save_bookmark() {
-    // 임시 id
-    let id = 'kyungyeon';
 
+    let id = "kyungyeon";
     if (confirm_bookmark()) {
         return;
     }
