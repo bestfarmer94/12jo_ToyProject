@@ -20,7 +20,7 @@ loginBtn.addEventListener('click', (e) => {
         return;
     }
 
-    window.location.href = './main';
+    make_Token(userId, userPassword);
 });
 
 signUpBtn.addEventListener('click', (e) => {
@@ -46,6 +46,29 @@ signUpCheckBtn.addEventListener('click', (e) => {
     selectorShowOrHide(true, loginBtn, signUpBtn);
     selectorShowOrHide(false, passwordCheckInput, signUpCheckBtn);
 });
+
+function make_Token(id, password) {
+    $.ajax({
+        type: 'POST',
+        url: '/token',
+        data: {
+            id_give: id,
+            password_give: password,
+        },
+        success: function (response) {
+            // jwt토큰을 가지는 쿠키 생성
+            console.log(response['token']);
+            if (response['result'] == 'success') {
+                $.cookie('mytoken', response['token']);
+                // alert('쿠키생성 성공!');
+                window.location.href = './main';
+            }
+        },
+        error: function (response) {
+            alert(response['msg']);
+        },
+    });
+}
 
 function singupCrossCheck(userId, password, otherPassword) {
     if (userId === '' || password === '' || otherPassword === '') {
@@ -91,15 +114,14 @@ function sendUserData(id, password, passwordCheck = null) {
         async: false,
         success: function (response) {
             if (response['complete']) {
-                alert(response['complete']);
-                // checkData = response['complete'];
+                response['complete'];
             } else if (response['create']) {
-                alert(response['create']);
+                toastr.success(response['create']);
             } else if (response['fail']) {
-                alert(response['fail']);
+                toastr.error(response['fail']);
                 checkData = false;
             } else {
-                alert(response['error']);
+                toastr.error(response['error']);
                 checkData = false;
             }
         },
@@ -110,23 +132,3 @@ function sendUserData(id, password, passwordCheck = null) {
     });
     return checkData;
 }
-
-// function getUserData() {
-//     console.log(1);
-//     let data = {};
-//     $.ajax({
-//         type: 'GET',
-//         url: '/login',
-//         data: {},
-//         async: false,
-//         success: function (response) {
-//             console.log(response);
-//             data = response;
-//         },
-//         error: function () {
-//             alert('로그인 정보가 없습니다.');
-//             return false;
-//         },
-//     });
-//     return data;
-// }
