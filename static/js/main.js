@@ -1,3 +1,4 @@
+let tagify = {};
 //=====================포스팅 팝업=========================
 $(document).ready(function () {
     var target = $('#postPop');
@@ -50,7 +51,7 @@ function addCategoryPopUp() {
     let inputElm = document.querySelector('input[name=tags]'),
         whitelist = parse_hash;
 
-    let tagify = new Tagify(inputElm, {
+    tagify = new Tagify(inputElm, {
         enforceWhitelist: false,
         whitelist: whitelist,
         maxTags: 10,
