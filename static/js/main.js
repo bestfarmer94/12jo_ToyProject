@@ -174,7 +174,7 @@ function showBookMark() {
                         <div class="cards-box__container logo" data-number="${number}">
                             <div class="cards-box__category"><span>${category}</span><button class="cards-box__closeBtn"></button></div>
                             <div class="cards-box__card" style="width: 18rem">
-                                <a href="${url}">
+                                <a href="${url}" target= _blank rel= noopener noreferrer>
                                     <img src="${image}" class="cards-box__img" alt="bookimage" onerror="this.src='/static/img/errorImg.jpg';"//>
 
                                     <p class="cards-box__body-title">${title}</p>
