@@ -99,19 +99,19 @@ function showBookMark(id) {
         hash = hash.map((tag) => `#${tag.replace(reg, '')}`).join(' ');
 
         const tempHTML = `
-                <div class="col cards-box">
-                            <div class="cards-box__container logo">
-                                <div class="cards-box__category"><span>${category}</span><button class="cards-box__closeBtn"></button></div>
-                                <div class="cards-box__card" style="width: 18rem">
-                                    <a href="${url}">
-                                        <img src="${image}" class="cards-box__img" alt="bookimage" />
+                        <div class="col cards-box" data-aos="fade-up" data-aos-delay="200" data-aos-easing="ease-in-out" data-aos-once="false">
+                        <div class="cards-box__container logo">
+                            <div class="cards-box__category"><span>${category}</span><button class="cards-box__closeBtn"></button></div>
+                            <div class="cards-box__card" style="width: 18rem">
+                                <a href="${url}">
+                                    <img src="${image}" class="cards-box__img" alt="bookimage" />
 
-                                        <p class="cards-box__body-title">${title}</p>
-                                    </a>
-                                    <p class="cards-box__body-tag">${tag}</p>
-                                </div>
+                                    <p class="cards-box__body-title">${title}</p>
+                                </a>
+                                <p class="cards-box__body-tag">${tag}</p>
                             </div>
-                        </div>     
+                        </div>
+                    </div>
         `;
 
         $('#cards-box').append(tempHTML);
