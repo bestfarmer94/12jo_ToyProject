@@ -6,7 +6,8 @@ import json
 from pymongo import MongoClient
 from werkzeug.security import generate_password_hash, check_password_hash
 
-client = MongoClient("mongodb+srv://toyproject:sparta@cluster0.pahczrd.mongodb.net/?retryWrites=true&w=majority")
+client = MongoClient(
+    "mongodb+srv://toyproject:sparta@cluster0.pahczrd.mongodb.net/?retryWrites=true&w=majority")
 db = client.dbsparta
 
 # 웹스크래핑 bs4 패키지 추가
@@ -14,6 +15,8 @@ db = client.dbsparta
 # Flask 기본 코드
 
 app = Flask(__name__)
+
+SECRET_KEY = "12jo"
 
 
 @app.route('/')
@@ -36,7 +39,8 @@ def login():
             else:
                 return jsonify({'fail': '로그인 실패'})
         else:
-            login_list = list(db.login.find({'id': id_receive}, {'_id': False}))
+            login_list = list(db.login.find(
+                {'id': id_receive}, {'_id': False}))
             check_cnt = len(login_list)
 
             print(login_list, check_cnt)
@@ -76,7 +80,8 @@ def save_bookmark():
     else:
         number = 1
 
-    bookmark_list = list(db.bookmarks.find({"id": id_receive, "url": url_receive}, {'_id': False}))
+    bookmark_list = list(db.bookmarks.find(
+        {"id": id_receive, "url": url_receive}, {'_id': False}))
     if len(bookmark_list) != 0:
         return jsonify({"msg": "이미 가지고 있는 url 입니다."})
 
@@ -99,7 +104,8 @@ def save_bookmark():
     }
     db.bookmarks.insert_one(new_bookmark)
 
-    category_list = list(db.categories.find({"id": id_receive, "category": category_receive}, {'_id': False}))
+    category_list = list(db.categories.find(
+        {"id": id_receive, "category": category_receive}, {'_id': False}))
 
     if len(category_list) == 0:
         new_category = {
@@ -121,12 +127,14 @@ def show_bookmark():
 @app.route("/delete", methods=["POST"])
 def delete_bookmark():
     number_receive = request.form["number_give"]
+    print(number_receive)
     db.bookmarks.delete_one({"number": number_receive})
     return jsonify({"msg": "삭제 완료"})
 
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
+
 
 # @app.route('/login', methods=['POST',"GET"])
 # def login():
