@@ -2,6 +2,11 @@ from flask import Flask, render_template, request, jsonify
 from bs4 import BeautifulSoup
 import requests
 import json
+import hashlib
+import datetime
+import logging
+import traceback
+import jwt
 
 from pymongo import MongoClient
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -18,11 +23,12 @@ app = Flask(__name__)
 
 SECRET_KEY = "12jo"
 
-
+#============================index home=====================
 @app.route('/')
 def home():
     return render_template('index.html')
 
+#============================signin=====================
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -31,10 +37,12 @@ def login():
         pw_receive = request.form['pw_give']
         pw_check_receive = request.form['pw_check_give']
 
+        hash_pw = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest();
+
         if pw_check_receive == '':
             login = db.login.find_one({'id': id_receive}, {'_id': False})
 
-            if login['password'] == str(pw_receive):
+            if login['password'] == hash_pw:
                 return jsonify({'complete': '로그인 완료'})
             else:
                 return jsonify({'fail': '로그인 실패'})
@@ -50,20 +58,58 @@ def login():
 
             doc = {
                 'id': id_receive,
-                'password': pw_receive
+                'password': hash_pw
             }
 
             db.login.insert_one(doc)
 
-        return jsonify({'create': '저장 완료'})
+        return jsonify({'create': '가입 완료'})
     else:
         return render_template('login.html')
 
 
+@app.route("/token", methods=["POST"])
+def make_token():
+    id_receive = request.form['id_give']
+    password_receive = request.form['password_give']
+
+    hash_pw = hashlib.sha256(password_receive.encode('utf-8')).hexdigest();
+
+    login_result = db.login.find_one({'id': id_receive, 'password': hash_pw}, {'_id': False})
+
+    if login_result is not None:
+        # jwt 토큰 사용 시, SECRET_KEY 가 있어야 payload값을 볼 수 있다.
+        payload = {
+            'id': id_receive,
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60)  # 토큰 유효시간
+        }
+        # jwt 암호화
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+        
+        print('payload')
+        # 로그인 시 token을 준다.
+        return jsonify({'result': 'success', 'token': token})
+				
+    # 데이터가 없으면
+    else:
+        return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
+
+#============================main=====================
 @app.route('/main')
 def main():
-    return render_template('main.html')
+    token_receive = request.cookies.get('mytoken')
+    
+    print('토큰 받음')
+    print(token_receive)
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        print(payload)
+        return render_template('main.html', id = payload['id'])
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        print(logging.error(traceback.format_exc()))
+        return render_template('login.html')
 
+#============================bookMark=====================
 
 @app.route("/save_bookmark", methods=["POST"])
 def save_bookmark():
@@ -83,7 +129,7 @@ def save_bookmark():
     bookmark_list = list(db.bookmarks.find(
         {"id": id_receive, "url": url_receive}, {'_id': False}))
     if len(bookmark_list) != 0:
-        return jsonify({"msg": "이미 가지고 있는 url 입니다."})
+        return jsonify({"error": "이미 가지고 있는 url 입니다."})
 
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
