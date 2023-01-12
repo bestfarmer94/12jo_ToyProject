@@ -1,10 +1,8 @@
 //=====================포스팅 팝업=========================
-
 $(document).ready(function () {
     var target = $('#postPop');
     $(document).on('click', '.nav__posting', function (e) {
-        addCategoryPopUp();
-
+        // addCategoryPopUp();
         target
             .fadeIn(300, function () {
                 $('#postPop__url').focus();
@@ -16,7 +14,7 @@ $(document).ready(function () {
 
 $('#close__postPop').click(function () {
     $(this).closest('#postPop').removeClass('reveal').fadeOut(200);
-    $('body').removeClass('has-search');
+    $('body').removeClass('has-url');
 });
 
 $('#bookmark-post').click(function () {
@@ -65,7 +63,7 @@ let bookmark_list = {};
 
 function ajaxBookMark(url, data) {
     bookmark_list = {};
-    $('#cards-box').empty();
+    // $('#cards-box').empty();
     $.ajax({
         type: 'POST',
         url: url,
@@ -75,7 +73,7 @@ function ajaxBookMark(url, data) {
             bookmark_list = response;
         },
         error: function () {
-            alert('url을 확인해 주세요');
+            // alert('url을 확인해 주세요');
         },
     });
 
@@ -101,21 +99,21 @@ function showBookMark(id) {
         hash = hash.map((tag) => `#${tag.replace(reg, '')}`).join(' ');
 
         const tempHTML = `
-        <div id="bookmark" class="col">
-          <a class="logo" href="${url}">
-            <div class="card" style="width: 18rem">
-              <img src="${image}" class="card-img-top" alt="bookimage" />
-                <div class="card-body">
-                    <h5 class="card-title">${title}</h5>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">${category}</li>
-                    <li class="list-group-item">${hash}</li>
-                </ul>
-            </div>
-          </a>
-        </div>     
+                        <div class="col cards-box" data-aos="fade-up" data-aos-delay="200" data-aos-easing="ease-in-out" data-aos-once="false">
+                        <div class="cards-box__container logo">
+                            <div class="cards-box__category"><span>${category}</span><button class="cards-box__closeBtn"></button></div>
+                            <div class="cards-box__card" style="width: 18rem">
+                                <a href="${url}">
+                                    <img src="${image}" class="cards-box__img" alt="bookimage" />
+
+                                    <p class="cards-box__body-title">${title}</p>
+                                </a>
+                                <p class="cards-box__body-tag">${tag}</p>
+                            </div>
+                        </div>
+                    </div>
         `;
+
         $('#cards-box').append(tempHTML);
     });
 }
