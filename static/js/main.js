@@ -70,7 +70,7 @@ function addCategoryPopUp() {
     }
 
     let inputElm = document.querySelector('input[name=tags]'),
-        whitelist = parse_hash;
+        whitelist = Array.from(new Set(parse_hash)).map((item) => item.trim());
 
     tagify = new Tagify(inputElm, {
         enforceWhitelist: false,
@@ -137,7 +137,7 @@ function ajaxBookMark(url, data) {
             if (response['msg']) {
                 response['msg'];
             } else if (response['error']) {
-                response['error'];
+                alert(response['error']);
             }
             bookmark_list = response;
         },
@@ -157,7 +157,6 @@ function showBookMark() {
     )['bookmark_list'];
 
     bookmark_list.forEach((list) => {
-        const id = list['id'];
         const number = list['number'];
         const image = list['image'];
         const title = list['title'];
