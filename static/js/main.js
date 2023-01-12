@@ -2,7 +2,6 @@
 $(document).ready(function () {
     var target = $('#postPop');
     $(document).on('click', '.nav__posting', function (e) {
-        // addCategoryPopUp();
         target
             .fadeIn(300, function () {
                 $('#postPop__url').focus();
@@ -40,17 +39,35 @@ $('#bookmark-post').click(function () {
 });
 
 function addCategoryPopUp() {
-    $('.tag-cloud__list *').remove();
+    const parse_hash = bookmark_list
+        .map((list) => list['hash'])
+        .join(',')
+        .split(',');
+
+    let inputElm = document.querySelector('input[name=tags]'),
+        whitelist = parse_hash;
+
+    let tagify = new Tagify(inputElm, {
+        enforceWhitelist: false,
+        whitelist: whitelist,
+        maxTags: 10,
+        dropdown: {
+            maxItems: 20, // 드롭다운 메뉴에서 몇개 정도 항목을 보여줄지
+            classname: 'tags-look', // 드롭다운 메뉴 엘리먼트 클래스 이름. 이걸로 css 선택자로 쓰면 된다.
+            enabled: 0, // 단어 몇글자 입력했을떄 추천 드롭다운 메뉴가 나타날지
+            closeOnSelect: false, // 드롭다운 메뉴에서 태그 선택하면 자동으로 꺼지는지 안꺼지는지
+        },
+    });
+
+    $('.tag-cloud__list *').empty();
     let parse_category = bookmark_list.map((list) => list['category']);
 
     parse_category = new Set(parse_category);
 
     parse_category.forEach((category) => {
         const tag_html = `
-          <span>
-            <a href="" class="tag-cloud__tags">
+          <span class="tag-cloud__tags">
                 <i class="fad fa-tags tags-i"></i> ${category}
-            </a>
           </span>
           `;
 
@@ -63,7 +80,7 @@ let bookmark_list = {};
 
 function ajaxBookMark(url, data) {
     bookmark_list = {};
-    // $('#cards-box').empty();
+    $('#cards-box').empty();
     $.ajax({
         type: 'POST',
         url: url,
@@ -108,7 +125,7 @@ function showBookMark(id) {
 
                                     <p class="cards-box__body-title">${title}</p>
                                 </a>
-                                <p class="cards-box__body-tag">${tag}</p>
+                                <p class="cards-box__body-tag">${hash}</p>
                             </div>
                         </div>
                     </div>
@@ -116,33 +133,13 @@ function showBookMark(id) {
 
         $('#cards-box').append(tempHTML);
     });
+
+    addCategoryPopUp();
 }
 
 function saveBookmark(url, data) {
     return ajaxBookMark(url, data);
 }
-
-showBookMark();
-
-const parse_hash = bookmark_list
-    .map((list) => list['hash'])
-    .join(',')
-    .split(',');
-
-let inputElm = document.querySelector('input[name=tags]'),
-    whitelist = parse_hash;
-
-let tagify = new Tagify(inputElm, {
-    enforceWhitelist: false,
-    whitelist: whitelist,
-    maxTags: 10,
-    dropdown: {
-        maxItems: 20, // 드롭다운 메뉴에서 몇개 정도 항목을 보여줄지
-        classname: 'tags-look', // 드롭다운 메뉴 엘리먼트 클래스 이름. 이걸로 css 선택자로 쓰면 된다.
-        enabled: 0, // 단어 몇글자 입력했을떄 추천 드롭다운 메뉴가 나타날지
-        closeOnSelect: false, // 드롭다운 메뉴에서 태그 선택하면 자동으로 꺼지는지 안꺼지는지
-    },
-});
 
 // tagify.on('add', onAddTag); //
 
@@ -151,3 +148,7 @@ let tagify = new Tagify(inputElm, {
 //     console.log(tagify.value);
 //     // tagify.off('add', onAddTag);
 // }
+
+// ================ 실행 함수 ===============
+
+showBookMark();
