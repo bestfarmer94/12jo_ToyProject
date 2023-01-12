@@ -1,5 +1,4 @@
 let tagify = {};
-
 //=====================포스팅 팝업=========================
 $(document).ready(function () {
     var target = $('#postPop');
