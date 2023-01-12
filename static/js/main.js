@@ -2,7 +2,7 @@
 $(document).ready(function () {
     var target = $('#postPop');
     $(document).on('click', '.nav__posting', function (e) {
-        // addCategoryPopUp();
+        addCategoryPopUp();
         target
             .fadeIn(300, function () {
                 $('#postPop__url').focus();
@@ -49,7 +49,7 @@ function addCategoryPopUp() {
         const tag_html = `
           <span>
             <a href="" class="tag-cloud__tags">
-                <i class="fad fa-tags tags-i"></i> ${category}
+            <i class="far fa-stream"></i></i> ${category}
             </a>
           </span>
           `;
@@ -63,7 +63,7 @@ let bookmark_list = {};
 
 function ajaxBookMark(url, data) {
     bookmark_list = {};
-    // $('#cards-box').empty();
+    $('#cards-box').empty();
     $.ajax({
         type: 'POST',
         url: url,
@@ -104,11 +104,11 @@ function showBookMark(id) {
                             <div class="cards-box__category"><span>${category}</span><button class="cards-box__closeBtn"></button></div>
                             <div class="cards-box__card" style="width: 18rem">
                                 <a href="${url}">
-                                    <img src="${image}" class="cards-box__img" alt="bookimage" />
+                                    <img src="${image}" class="cards-box__img" alt="bookimage" onerror="this.src='/static/img/errorImg.jpg';"//>
 
                                     <p class="cards-box__body-title">${title}</p>
                                 </a>
-                                <p class="cards-box__body-tag">${tag}</p>
+                                <p class="cards-box__body-tag">${hash}</p>
                             </div>
                         </div>
                     </div>
