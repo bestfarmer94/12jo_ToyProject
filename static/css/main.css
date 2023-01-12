@@ -104,9 +104,14 @@
     filter: grayscale(0.6);
 }
 
+.cards-box__closeBtn.active {
+    visibility: visible;
+}
+
 .cards-box__closeBtn {
     border: none;
     background: none;
+    visibility: hidden;
 }
 .cards-box__closeBtn:after {
     content: '\f00d';

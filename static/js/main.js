@@ -10,6 +10,17 @@ $(document).ready(function () {
             .addClass('reveal');
         $('body').addClass('has-url');
     });
+
+    //=============delete button showing Start
+
+    $('#cards-box .col').hover(
+        function () {
+            $('button', this).addClass('active');
+        },
+        function () {
+            $('button', this).removeClass('active');
+        }
+    );
 });
 
 $('#close__postPop').click(function () {
@@ -88,7 +99,7 @@ document.addEventListener('click', (e) => {
     const targetName = e.target.className;
     if (targetName === 'cards-box__closeBtn') {
         const number = e.target.parentNode.parentNode.dataset.number;
-        deleteBookMark('/delete', { number_give: Number(number) });
+        deleteBookMark('/delete', { number_give: number });
 
         window.location.reload();
     }
