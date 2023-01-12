@@ -69,8 +69,10 @@ function addCategoryPopUp() {
 
     parse_category.forEach((category) => {
         const tag_html = `
-          <span class="tag-cloud__tags">
-                <i class="fad fa-tags tags-i"></i> ${category}
+          <span>
+            <span class="tag-cloud__tags style="color:white !important">
+            <i class="far fa-stream"></i></i> ${category}
+            </span>
           </span>
           `;
 
@@ -138,7 +140,7 @@ function showBookMark(id) {
                             <div class="cards-box__category"><span>${category}</span><button class="cards-box__closeBtn"></button></div>
                             <div class="cards-box__card" style="width: 18rem">
                                 <a href="${url}">
-                                    <img src="${image}" class="cards-box__img" alt="bookimage" />
+                                    <img src="${image}" class="cards-box__img" alt="bookimage" onerror="this.src='/static/img/errorImg.jpg';"//>
 
                                     <p class="cards-box__body-title">${title}</p>
                                 </a>

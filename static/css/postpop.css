@@ -44,9 +44,23 @@
     background-clip: padding-box;
     border: 1px solid rgb(138 138 138 / 62%);
     box-shadow: rgb(0 0 0 / 48%) 0 26px 30px -10px, rgb(0 0 0 / 23%) 0 16px 10px -10px;
-    padding: 1rem;
+    padding: 0rem 0rem 1rem;
     opacity: 0;
 }
+.postPop__container div:nth-child(n + 2):nth-child(-n + 4) {
+    padding: 0rem 1rem;
+}
+.postPop__form label,
+.tagify__input {
+    color: #919191 !important;
+}
+.postPop__container input,
+.form-floating .tagify {
+    border-radius: 1rem;
+    background: #2c2c2c;
+    border: none;
+}
+
 #postPop.reveal .postPop__container {
     transform: translate(-50%, -70%);
     -webkit-transform: translate(-50%, -70%);
@@ -69,32 +83,34 @@
 .tag-cloud__list span {
     display: inline-block;
     margin: 10px 1px;
-}
-
-.tag-cloud__list span {
-    display: inline-block;
-    margin: 10px 1px;
+    color: white;
 }
 
 .tag-cloud__tags {
     border: 1px solid #535353;
     border-radius: 50px;
-    padding: 7px 10px 5px;
+    padding: 0.3rem 0.7rem;
+    font-size: 0.8rem;
+    transition: 0.2s ease;
 }
 
+.tag-cloud__tags:hover {
+    background: white;
+    color: black;
+    border: 1px solid transparent;
+}
 .tag-cloud__tags > i {
     padding-right: 0.5rem;
 }
 
 /* tagify 라이브러리 */
-
 .tagify {
     width: 100%;
 }
 
 .tag-input {
     background-color: white;
-    color: black;
+    color: rgb(77, 77, 77);
 }
 
 .tags-look .tagify__dropdown__item {
