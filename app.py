@@ -127,6 +127,7 @@ def show_bookmark():
 @app.route("/delete", methods=["POST"])
 def delete_bookmark():
     number_receive = request.form["number_give"]
+    print(number_receive)
     db.bookmarks.delete_one({"number": number_receive})
     return jsonify({"msg": "삭제 완료"})
 

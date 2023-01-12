@@ -31,12 +31,15 @@ $('#bookmark-post').click(function () {
 
     // console.log(postURL, catagory, JSON.stringify(tagArray));
 
-    saveBookmark('/save_bookmark', {
+    saveBookMark('/save_bookmark', {
         data_give: JSON.stringify(bookmarkData),
     });
 
     window.location.reload();
 });
+
+//==============카테고리 팝업=================
+// const tagCloudTags = document.querySelectorAll('.tag-cloud__tags');
 
 function addCategoryPopUp() {
     const parse_hash = bookmark_list
@@ -78,6 +81,16 @@ function addCategoryPopUp() {
 //====================북마크 레이아웃========================
 let bookmark_list = {};
 
+document.addEventListener('click', (e) => {
+    const targetName = e.target.className;
+    if (targetName === 'cards-box__closeBtn') {
+        const number = e.target.parentNode.parentNode.dataset.number;
+        deleteBookMark('/delete', { number_give: Number(number) });
+
+        window.location.reload();
+    }
+});
+
 function ajaxBookMark(url, data) {
     bookmark_list = {};
     $('#cards-box').empty();
@@ -87,6 +100,9 @@ function ajaxBookMark(url, data) {
         data: data,
         async: false,
         success: function (response) {
+            if (response['msg']) {
+                alert(response['msg']);
+            }
             bookmark_list = response;
         },
         error: function () {
@@ -105,6 +121,7 @@ function showBookMark(id) {
 
     bookmark_list.forEach((list) => {
         const id = list['id'];
+        const number = list['number'];
         const image = list['image'];
         const title = list['title'];
         const category = list['category'];
@@ -117,7 +134,7 @@ function showBookMark(id) {
 
         const tempHTML = `
                         <div class="col cards-box" data-aos="fade-up" data-aos-delay="200" data-aos-easing="ease-in-out" data-aos-once="false">
-                        <div class="cards-box__container logo">
+                        <div class="cards-box__container logo" data-number="${number}">
                             <div class="cards-box__category"><span>${category}</span><button class="cards-box__closeBtn"></button></div>
                             <div class="cards-box__card" style="width: 18rem">
                                 <a href="${url}">
@@ -137,17 +154,13 @@ function showBookMark(id) {
     addCategoryPopUp();
 }
 
-function saveBookmark(url, data) {
+function saveBookMark(url, data) {
     return ajaxBookMark(url, data);
 }
 
-// tagify.on('add', onAddTag); //
-
-// function onAddTag(e) {
-//     console.log('onAddTag: ', e.detail.tagify.value);
-//     console.log(tagify.value);
-//     // tagify.off('add', onAddTag);
-// }
+function deleteBookMark(url, data) {
+    return ajaxBookMark(url, data);
+}
 
 // ================ 실행 함수 ===============
 
