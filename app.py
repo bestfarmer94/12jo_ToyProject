@@ -127,12 +127,13 @@ def show_bookmark():
 @app.route("/delete", methods=["POST"])
 def delete_bookmark():
     number_receive = request.form["number_give"]
+    print(number_receive)
     db.bookmarks.delete_one({"number": number_receive})
     return jsonify({"msg": "삭제 완료"})
 
 
 if __name__ == '__main__':
-    app.run('0.0.0.0', port=5002, debug=True)
+    app.run('0.0.0.0', port=5000, debug=True)
 
 
 # @app.route('/login', methods=['POST',"GET"])

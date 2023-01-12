@@ -2,7 +2,6 @@
 $(document).ready(function () {
     var target = $('#postPop');
     $(document).on('click', '.nav__posting', function (e) {
-        addCategoryPopUp();
         target
             .fadeIn(300, function () {
                 $('#postPop__url').focus();
@@ -32,15 +31,38 @@ $('#bookmark-post').click(function () {
 
     // console.log(postURL, catagory, JSON.stringify(tagArray));
 
-    saveBookmark('/save_bookmark', {
+    saveBookMark('/save_bookmark', {
         data_give: JSON.stringify(bookmarkData),
     });
 
     window.location.reload();
 });
 
+//==============카테고리 팝업=================
+// const tagCloudTags = document.querySelectorAll('.tag-cloud__tags');
+
 function addCategoryPopUp() {
-    $('.tag-cloud__list *').remove();
+    const parse_hash = bookmark_list
+        .map((list) => list['hash'])
+        .join(',')
+        .split(',');
+
+    let inputElm = document.querySelector('input[name=tags]'),
+        whitelist = parse_hash;
+
+    let tagify = new Tagify(inputElm, {
+        enforceWhitelist: false,
+        whitelist: whitelist,
+        maxTags: 10,
+        dropdown: {
+            maxItems: 20, // 드롭다운 메뉴에서 몇개 정도 항목을 보여줄지
+            classname: 'tags-look', // 드롭다운 메뉴 엘리먼트 클래스 이름. 이걸로 css 선택자로 쓰면 된다.
+            enabled: 0, // 단어 몇글자 입력했을떄 추천 드롭다운 메뉴가 나타날지
+            closeOnSelect: false, // 드롭다운 메뉴에서 태그 선택하면 자동으로 꺼지는지 안꺼지는지
+        },
+    });
+
+    $('.tag-cloud__list *').empty();
     let parse_category = bookmark_list.map((list) => list['category']);
 
     parse_category = new Set(parse_category);
@@ -48,9 +70,9 @@ function addCategoryPopUp() {
     parse_category.forEach((category) => {
         const tag_html = `
           <span>
-            <a href="" class="tag-cloud__tags">
+            <span class="tag-cloud__tags style="color:white !important">
             <i class="far fa-stream"></i></i> ${category}
-            </a>
+            </span>
           </span>
           `;
 
@@ -61,6 +83,16 @@ function addCategoryPopUp() {
 //====================북마크 레이아웃========================
 let bookmark_list = {};
 
+document.addEventListener('click', (e) => {
+    const targetName = e.target.className;
+    if (targetName === 'cards-box__closeBtn') {
+        const number = e.target.parentNode.parentNode.dataset.number;
+        deleteBookMark('/delete', { number_give: Number(number) });
+
+        window.location.reload();
+    }
+});
+
 function ajaxBookMark(url, data) {
     bookmark_list = {};
     $('#cards-box').empty();
@@ -70,6 +102,9 @@ function ajaxBookMark(url, data) {
         data: data,
         async: false,
         success: function (response) {
+            if (response['msg']) {
+                alert(response['msg']);
+            }
             bookmark_list = response;
         },
         error: function () {
@@ -88,6 +123,7 @@ function showBookMark(id) {
 
     bookmark_list.forEach((list) => {
         const id = list['id'];
+        const number = list['number'];
         const image = list['image'];
         const title = list['title'];
         const category = list['category'];
@@ -100,7 +136,7 @@ function showBookMark(id) {
 
         const tempHTML = `
                         <div class="col cards-box" data-aos="fade-up" data-aos-delay="200" data-aos-easing="ease-in-out" data-aos-once="false">
-                        <div class="cards-box__container logo">
+                        <div class="cards-box__container logo" data-number="${number}">
                             <div class="cards-box__category"><span>${category}</span><button class="cards-box__closeBtn"></button></div>
                             <div class="cards-box__card" style="width: 18rem">
                                 <a href="${url}">
@@ -116,38 +152,18 @@ function showBookMark(id) {
 
         $('#cards-box').append(tempHTML);
     });
+
+    addCategoryPopUp();
 }
 
-function saveBookmark(url, data) {
+function saveBookMark(url, data) {
     return ajaxBookMark(url, data);
 }
 
+function deleteBookMark(url, data) {
+    return ajaxBookMark(url, data);
+}
+
+// ================ 실행 함수 ===============
+
 showBookMark();
-
-const parse_hash = bookmark_list
-    .map((list) => list['hash'])
-    .join(',')
-    .split(',');
-
-let inputElm = document.querySelector('input[name=tags]'),
-    whitelist = parse_hash;
-
-let tagify = new Tagify(inputElm, {
-    enforceWhitelist: false,
-    whitelist: whitelist,
-    maxTags: 10,
-    dropdown: {
-        maxItems: 20, // 드롭다운 메뉴에서 몇개 정도 항목을 보여줄지
-        classname: 'tags-look', // 드롭다운 메뉴 엘리먼트 클래스 이름. 이걸로 css 선택자로 쓰면 된다.
-        enabled: 0, // 단어 몇글자 입력했을떄 추천 드롭다운 메뉴가 나타날지
-        closeOnSelect: false, // 드롭다운 메뉴에서 태그 선택하면 자동으로 꺼지는지 안꺼지는지
-    },
-});
-
-// tagify.on('add', onAddTag); //
-
-// function onAddTag(e) {
-//     console.log('onAddTag: ', e.detail.tagify.value);
-//     console.log(tagify.value);
-//     // tagify.off('add', onAddTag);
-// }

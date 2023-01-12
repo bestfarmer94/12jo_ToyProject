@@ -50,10 +50,7 @@
 .postPop__container div:nth-child(n + 2):nth-child(-n + 4) {
     padding: 0rem 1rem;
 }
-.postPop__form label,
-.tagify__input {
-    color: #919191 !important;
-}
+
 .postPop__container input,
 .form-floating .tagify {
     border-radius: 1rem;
@@ -83,11 +80,7 @@
 .tag-cloud__list span {
     display: inline-block;
     margin: 10px 1px;
-}
-
-.tag-cloud__list span {
-    display: inline-block;
-    margin: 10px 1px;
+    color: white;
 }
 
 .tag-cloud__tags {
@@ -115,6 +108,12 @@
 .tag-input {
     background-color: white;
     color: rgb(77, 77, 77);
+}
+
+.postPop__form label,
+.tagify__input:before,
+.form-control::placeholder {
+    color: #919191 !important;
 }
 
 .tags-look .tagify__dropdown__item {
