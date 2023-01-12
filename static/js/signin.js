@@ -1,6 +1,7 @@
 const loginBtn = document.querySelector('#login-btn');
 const signUpBtn = document.querySelector('#sign-up-btn');
 const signUpCheckBtn = document.querySelector('#sign-up-check');
+const signUpBackBtn = document.querySelector('#sign-up-back');
 
 const idInput = document.querySelector('#floatingId');
 const passwordInput = document.querySelector('#floatingPassword');
@@ -26,7 +27,7 @@ loginBtn.addEventListener('click', (e) => {
 signUpBtn.addEventListener('click', (e) => {
     e.preventDefault();
     selectorShowOrHide(false, loginBtn, signUpBtn);
-    selectorShowOrHide(true, passwordCheckInput, signUpCheckBtn);
+    selectorShowOrHide(true, passwordCheckInput, signUpCheckBtn, signUpBackBtn);
 });
 
 signUpCheckBtn.addEventListener('click', (e) => {
@@ -44,7 +45,11 @@ signUpCheckBtn.addEventListener('click', (e) => {
     }
 
     selectorShowOrHide(true, loginBtn, signUpBtn);
-    selectorShowOrHide(false, passwordCheckInput, signUpCheckBtn);
+    selectorShowOrHide(false, passwordCheckInput, signUpCheckBtn, signUpBackBtn);
+});
+
+signUpBackBtn.addEventListener('click', () => {
+    window.location.reload();
 });
 
 function make_Token(id, password) {

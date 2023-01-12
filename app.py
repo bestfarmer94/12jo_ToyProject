@@ -138,6 +138,8 @@ def save_bookmark():
 
     title = soup.select_one('meta[property="og:title"]')['content']
     image = soup.select_one('meta[property="og:image"]')['content']
+    if image[0:4] != "http":
+        image = "../static/img/errorImg.jpg"
 
     new_bookmark = {
         "number": number,
