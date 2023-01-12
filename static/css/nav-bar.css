@@ -113,6 +113,12 @@
     transition: 0.5s ease-in;
 }
 
+#logout_btn {
+    border: none;
+    outline: none;
+    background-color: transparent;
+}
+
 /*
  * Hamburgers
  * @description Tasty CSS-animated hamburgers

@@ -9,6 +9,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
         <!--==========FONT Awesome PRO 5==========-->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/hung1001/font-awesome-pro@4cac1a6/css/all.css" />
@@ -17,6 +18,10 @@
         <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
         <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet" />
+
+        <!--Toastr 라이브러리-->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
         <!-- 소스 다운 -->
         <script src="https://unpkg.com/@yaireo/tagify"></script>
@@ -35,13 +40,13 @@
         <!-- Page Navbar -->
         <nav class="custom-navbar">
             <div class="container">
-                <a class="logo" href="/">BookMark Saver</a>
+                <a class="logo" href="/" data-id="{{id}}">BookMark Saver</a>
                 <ul class="nav">
-                    <li class="item">
+                    <!-- <li class="item">
                         <a class="link" href="#home">홈</a>
-                    </li>
+                    </li> -->
                     <li class="item">
-                        <a class="link" href="#about">로그인</a>
+                        <button id="logout_btn" class="link">로그아웃</button>
                     </li>
                 </ul>
                 <div class="nav__posting text-light fs-4">
@@ -57,7 +62,7 @@
         <!-- End of Page Navbar -->
         <section id="main__section">
             <div class="main__section-logo">
-                <svg class="main__logo" version="1.1" x="0px" y="0px" viewBox="0 0 557.3 75.6" style="enable-background: new 0 0 557.3 75.6">
+                <svg class="main__logo" version="1.1" x="0px" y="0px" viewBox="0 0 557.3 75.6" style="enable-background: new 0 0 557.3 75.6" data-aos="flip-up" data-aos-delay="200" data-aos-easing="ease-in-out" data-aos-once="true">
                     <g class="main__logo-text1">
                         <path
                             d="M18,55.4V25.2c0-3.6,1.8-5.4,5.4-5.4h17.4c7.1,0,10.6,3.2,10.6,9.6v3c0,3.2-1.3,5.6-3.8,7.4c0.1,0.1,0.2,0.1,0.3,0.2
@@ -194,5 +199,6 @@
         </script>
         <script src="../static/js/common.js"></script>
         <script src="../static/js/main.js"></script>
+        <script src="../static/js/signout.js"></script>
     </body>
 </html>

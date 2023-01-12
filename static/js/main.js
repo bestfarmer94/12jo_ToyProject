@@ -1,3 +1,4 @@
+let tagify = {};
 //=====================포스팅 팝업=========================
 $(document).ready(function () {
     var target = $('#postPop');
@@ -9,6 +10,17 @@ $(document).ready(function () {
             .addClass('reveal');
         $('body').addClass('has-url');
     });
+
+    //=============delete button showing Start
+
+    $('#cards-box .col').hover(
+        function () {
+            $('button', this).addClass('active');
+        },
+        function () {
+            $('button', this).removeClass('active');
+        }
+    );
 });
 
 $('#close__postPop').click(function () {
@@ -17,13 +29,20 @@ $('#close__postPop').click(function () {
 });
 
 $('#bookmark-post').click(function () {
-    const postURL = $('#postPop__url').val();
-    const catagoryData = $('#category').val();
+    let catagoryData = $('#category').val();
 
+    const postURL = $('#postPop__url').val();
     const tagArray = tagify.value.map((tag) => tag['value']);
+    const tokenId = document.querySelector('.logo').getAttribute('data-id');
+
+    if (postURL === '' || catagoryData === '') {
+        return;
+    }
+
+    catagoryData = catagoryData.trim();
 
     const bookmarkData = {
-        id: 'kyungyeon',
+        id: tokenId,
         url: postURL,
         category: catagoryData,
         hash: tagArray,
@@ -42,15 +61,18 @@ $('#bookmark-post').click(function () {
 // const tagCloudTags = document.querySelectorAll('.tag-cloud__tags');
 
 function addCategoryPopUp() {
-    const parse_hash = bookmark_list
-        .map((list) => list['hash'])
-        .join(',')
-        .split(',');
+    let parse_hash = bookmark_list.map((list) => list['hash']).filter((item) => item.length !== 0);
+
+    if (parse_hash.length !== 0) {
+        parse_hash = parse_hash.join(',').split(',');
+    } else {
+        parse_hash = ['네이버', '블로그'];
+    }
 
     let inputElm = document.querySelector('input[name=tags]'),
         whitelist = parse_hash;
 
-    let tagify = new Tagify(inputElm, {
+    tagify = new Tagify(inputElm, {
         enforceWhitelist: false,
         whitelist: whitelist,
         maxTags: 10,
@@ -69,12 +91,12 @@ function addCategoryPopUp() {
 
     parse_category.forEach((category) => {
         const tag_html = `
-          <span>
+        <span>
             <span class="tag-cloud__tags style="color:white !important">
             <i class="far fa-stream"></i></i> ${category}
             </span>
-          </span>
-          `;
+        </span>
+        `;
 
         $('.tag-cloud__list').append(tag_html);
     });
@@ -82,14 +104,24 @@ function addCategoryPopUp() {
 
 //====================북마크 레이아웃========================
 let bookmark_list = {};
+const category = document.querySelector('#category');
 
 document.addEventListener('click', (e) => {
     const targetName = e.target.className;
-    if (targetName === 'cards-box__closeBtn') {
+    console.log(e, targetName);
+    if (targetName === 'cards-box__closeBtn active') {
         const number = e.target.parentNode.parentNode.dataset.number;
-        deleteBookMark('/delete', { number_give: Number(number) });
+        deleteBookMark('/delete', { number_give: number });
 
         window.location.reload();
+    }
+});
+
+document.addEventListener('click', (e) => {
+    const targetName = e.target.className;
+    const innerText = e.target.innerText;
+    if (targetName === 'tag-cloud__tags style=') {
+        category.value = innerText.trim();
     }
 });
 
@@ -103,7 +135,9 @@ function ajaxBookMark(url, data) {
         async: false,
         success: function (response) {
             if (response['msg']) {
-                alert(response['msg']);
+                response['msg'];
+            } else if (response['error']) {
+                response['error'];
             }
             bookmark_list = response;
         },
@@ -115,10 +149,11 @@ function ajaxBookMark(url, data) {
     return bookmark_list;
 }
 
-function showBookMark(id) {
+function showBookMark() {
+    const tokenId = document.querySelector('.logo').getAttribute('data-id');
     bookmark_list = ajaxBookMark(
         '/show_bookmark', //
-        { id_give: 'kyungyeon' } //
+        { id_give: tokenId } //
     )['bookmark_list'];
 
     bookmark_list.forEach((list) => {
