@@ -113,6 +113,11 @@
     transition: 0.5s ease-in;
 }
 
+.welcome_login {
+    color: white;
+    margin: 0 1rem;
+}
+
 /*
  * Hamburgers
  * @description Tasty CSS-animated hamburgers
