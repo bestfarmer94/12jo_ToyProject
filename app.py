@@ -9,6 +9,7 @@ import traceback
 import jwt
 
 from pymongo import MongoClient
+from werkzeug.security import generate_password_hash, check_password_hash
 
 client = MongoClient(
     "mongodb+srv://toyproject:sparta@cluster0.pahczrd.mongodb.net/?retryWrites=true&w=majority")
@@ -83,8 +84,7 @@ def make_token():
             'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60)  # 토큰 유효시간
         }
         # jwt 암호화 
-        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
-        #로컬 환경 = .decode('utf-8') 사용 Line 87
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')#.decode('utf-8')#로컬 환경 = .decode('utf-8') 사용 Line 87
         #호스팅 서버 = .decode('utf-8') 없앰 Line 87
         
         print('payload')
@@ -139,8 +139,6 @@ def save_bookmark():
 
     title = soup.select_one('meta[property="og:title"]')['content']
     image = soup.select_one('meta[property="og:image"]')['content']
-    if image[0:4] != "http":
-        image = "../static/img/errorImg.jpg"
 
     new_bookmark = {
         "number": number,
@@ -183,6 +181,7 @@ def delete_bookmark():
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
+
 
 # @app.route('/login', methods=['POST',"GET"])
 # def login():
