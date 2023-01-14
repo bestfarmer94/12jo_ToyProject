@@ -198,6 +198,15 @@ function deleteBookMark(url, data) {
     return ajaxBookMark(url, data);
 }
 
+// =========== 뒤로가기 감지 토큰 삭제 ========
+
+window.onpageshow = function (event) {
+    if (event.persisted || (window.performance && window.performance.navigation.type == 2)) {
+        $.removeCookie('mytoken');
+        window.location.reload();
+    }
+};
+
 // ================ 실행 함수 ===============
 
 showBookMark();
