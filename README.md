@@ -6,10 +6,10 @@
 
 | 팀원   | 스택         | 팀원구분 | 깃허브                                          | 블로그                                                   |
 | ------ | ------------ | -------- | ----------------------------------------------- | -------------------------------------------------------- |
-| 김선중 | `프론트엔드` | `팀장`   | [Seogun95](https://github.com/Seogun95)         | [서근개발노트]('https://seons-dev.tistory.com/')         |
-| 박성인 | `프론트엔드` | 팀원     | [Adult96](https://github.com/Adult96)           | [Adult퐉]('https://adult.tistory.com/')                  |
-| 나도관 | `백엔드`     | 팀원     | [DOGWANNA](https://github.com/DOGWANNA)         | [개발 꿈나무의 성장일기]('https://9401ndk.tistory.com/') |
-| 신경연 | `백엔드`     | 팀원     | [bestfarmer94](https://github.com/bestfarmer94) | [bestfarmer]('https://velog.io/@bestfarmer')             |
+| 김선중 | `프론트엔드` | `팀장`   | [Seogun95](https://github.com/Seogun95)         | [서근개발노트](https://seons-dev.tistory.com/)         |
+| 박성인 | `프론트엔드` | 팀원     | [Adult96](https://github.com/Adult96)           | [Adult퐉](https://adult.tistory.com/)                  |
+| 나도관 | `백엔드`     | 팀원     | [DOGWANNA](https://github.com/DOGWANNA)         | [개발 꿈나무의 성장일기](https://9401ndk.tistory.com/) |
+| 신경연 | `백엔드`     | 팀원     | [bestfarmer94](https://github.com/bestfarmer94) | [bestfarmer](https://velog.io/@bestfarmer)             |
 
 ## 프로젝트 소개
 
@@ -23,7 +23,7 @@
 
 ## 프로젝트 시연 영상
 
-[Book Mark Saver Youtube]('https://youtu.be/2X9BvUnaZJQ')
+[Book Mark Saver Youtube](https://youtu.be/2X9BvUnaZJQ)
 
 ## 기술 스택
 
@@ -33,7 +33,7 @@
 
 ## 사용한 라이브러리
 
-[toastr]('https://codeseven.github.io/toastr/'), [tagify]('https://yaireo.github.io/tagify/'), [AOS]('https://michalsnik.github.io/aos/')
+[toastr](https://codeseven.github.io/toastr/), [tagify](https://yaireo.github.io/tagify/), [AOS](https://michalsnik.github.io/aos/)
 
 ## API Table
 
